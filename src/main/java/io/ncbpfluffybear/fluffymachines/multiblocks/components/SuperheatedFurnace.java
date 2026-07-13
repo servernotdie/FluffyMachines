@@ -79,7 +79,7 @@ public class SuperheatedFurnace extends NonHopperableBlock {
         addItemHandler(onBreak());
         addItemSetting(breakOnlyWhenEmpty);
 
-        new BlockMenuPreset(getId(), "&c铸造厂") {
+        new BlockMenuPreset(getId(), "&cXưởng đúc") {
 
             @Override
             public void init() {
@@ -90,9 +90,9 @@ public class SuperheatedFurnace extends NonHopperableBlock {
             public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
                 if (StorageCacheUtils.getData(b.getLocation(), "stored") == null) {
 
-                    menu.replaceExistingItem(4, new CustomItemStack(Material.GUNPOWDER, "&6可用矿粉: &e0", "&a> &e左键点击&a取出1个", "&a> &e右键点击&a取出1组"));
-                    menu.replaceExistingItem(7, new CustomItemStack(Material.IRON_INGOT, "&6可用锭: &e0", "&a> &e左键点击&a取出1个", "&a> &e右键点击&a取出1组"));
-                    menu.replaceExistingItem(1, new CustomItemStack(Material.CHEST, "&6已存储矿粉: &e0 &7(0%)", "&b类型: 无", "&7组: 0"));
+                    menu.replaceExistingItem(4, new CustomItemStack(Material.GUNPOWDER, "&6Bụi khoáng có sẵn: &e0", "&a> &eNhấp trái&a để lấy 1 cái", "&a> &eNhấp phải&a để lấy 1 xấp"));
+                    menu.replaceExistingItem(7, new CustomItemStack(Material.IRON_INGOT, "&6Thỏi có sẵn: &e0", "&a> &eNhấp trái&a để lấy 1 cái", "&a> &eNhấp phải&a để lấy 1 xấp"));
+                    menu.replaceExistingItem(1, new CustomItemStack(Material.CHEST, "&6Đã lưu trữ bụi khoáng: &e0 &7(0%)", "&bLoại: Không", "&7Xấp: 0"));
 
                     StorageCacheUtils.setData(b.getLocation(), "stored", "0");
                 }
@@ -154,7 +154,7 @@ public class SuperheatedFurnace extends NonHopperableBlock {
                     String type = StorageCacheUtils.getData(b.getLocation(), "type");
 
                     if (breakOnlyWhenEmpty.getValue() && stored != 0) {
-                        Utils.send(p, "&c请清空铸造厂后再破坏!");
+                        Utils.send(p, "&cHãy dọn sạch xưởng đúc trước khi phá hủy!");
                         e.setCancelled(true);
                         return;
                     }
@@ -166,7 +166,7 @@ public class SuperheatedFurnace extends NonHopperableBlock {
                     }
 
                     if (itemCount > 5) {
-                        Utils.send(p, "&c在打破这个超热炉之前,最好把东西拿走!");
+                        Utils.send(p, "&cTrước khi phá vỡ Lò siêu nhiệt này, tốt nhất hãy lấy đồ ra!");
                         e.setCancelled(true);
                         return;
                     }
@@ -181,8 +181,8 @@ public class SuperheatedFurnace extends NonHopperableBlock {
 
                         if (stored > OVERFLOW_AMOUNT) {
 
-                            Utils.send(p, "&e铸造厂拥有超过" + OVERFLOW_AMOUNT + "个物品! " +
-                                "仅掉落 " + OVERFLOW_AMOUNT + " 个物品!");
+                            Utils.send(p, "&eXưởng đúc có hơn " + OVERFLOW_AMOUNT + " vật phẩm! " +
+                                "Chỉ rơi " + OVERFLOW_AMOUNT + " vật phẩm!");
                             int toRemove = OVERFLOW_AMOUNT;
                             while (toRemove >= stackSize) {
 
@@ -354,13 +354,13 @@ public class SuperheatedFurnace extends NonHopperableBlock {
 
         if (stored.equals("0")) {
             StorageCacheUtils.removeData(b.getLocation(), "type");
-            inv.replaceExistingItem(INPUT_INDICATOR, new CustomItemStack(new ItemStack(Material.CHEST), "&6可用矿粉: &e0 &7(0%)", "&b类型: 无", "&7组: 0"));
+            inv.replaceExistingItem(INPUT_INDICATOR, new CustomItemStack(new ItemStack(Material.CHEST), "&6Bụi khoáng có sẵn: &e0 &7(0%)", "&bLoại: Không", "&7Xấp: 0"));
         } else {
-            inv.replaceExistingItem(INPUT_INDICATOR, new CustomItemStack(new ItemStack(Material.CHEST), "&6可用锭: &e" + stored + " &7(" + Double.parseDouble(stored) / MAX_STORAGE * 100 + "%)", "&b类型: " + type, "&7组: " + Double.parseDouble(stored) / 64));
+            inv.replaceExistingItem(INPUT_INDICATOR, new CustomItemStack(new ItemStack(Material.CHEST), "&6Thỏi có sẵn: &e" + stored + " &7(" + Double.parseDouble(stored) / MAX_STORAGE * 100 + "%)", "&bLoại: " + type, "&7Xấp: " + Double.parseDouble(stored) / 64));
 
         }
-        inv.replaceExistingItem(DUST_INDICATOR, new CustomItemStack(new ItemStack(Material.GUNPOWDER), "&6可用矿粉: &e" + stored, "&a> &e左键点击&a取出1个", "&a> &e右键点击&a取出1组"));
-        inv.replaceExistingItem(INGOT_INDICATOR, new CustomItemStack(new ItemStack(Material.IRON_INGOT), "&6可用锭: &e" + stored, "&a> &e左键点击&a取出1个", "&a> &e右键点击&a取出1组"));
+        inv.replaceExistingItem(DUST_INDICATOR, new CustomItemStack(new ItemStack(Material.GUNPOWDER), "&6Bụi khoáng có sẵn: &e" + stored, "&a> &eNhấp trái&a để lấy 1 cái", "&a> &eNhấp phải&a để lấy 1 xấp"));
+        inv.replaceExistingItem(INGOT_INDICATOR, new CustomItemStack(new ItemStack(Material.IRON_INGOT), "&6Thỏi có sẵn: &e" + stored, "&a> &eNhấp trái&a để lấy 1 cái", "&a> &eNhấp phải&a để lấy 1 xấp"));
 
 
     }

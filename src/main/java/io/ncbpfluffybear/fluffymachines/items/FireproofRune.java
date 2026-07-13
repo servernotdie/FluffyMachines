@@ -44,7 +44,7 @@ public class FireproofRune extends SimpleSlimefunItem<ItemDropHandler> {
 
     private static final double RANGE = 1.5;
     private static final NamespacedKey FIREPROOF_KEY = new NamespacedKey(FluffyMachines.getInstance(), "fireproof");
-    private static final String FIREPROOF_LORE = ChatColor.RED + "防火";
+    private static final String FIREPROOF_LORE = ChatColor.RED + "Chống cháy";
 
 
     public FireproofRune(ItemGroup category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
@@ -61,7 +61,7 @@ public class FireproofRune extends SimpleSlimefunItem<ItemDropHandler> {
                     return true;
                 }
 
-                Utils.runSync(() -> activate(p, item), 20L);
+                Utils.runSync(item, () -> activate(p, item), 20L);
 
                 return true;
             }
@@ -86,7 +86,7 @@ public class FireproofRune extends SimpleSlimefunItem<ItemDropHandler> {
                 // This lightning is just an effect, it deals no damage.
                 l.getWorld().strikeLightningEffect(l);
 
-                Utils.runSync(() -> {
+                Utils.runSync(rune, () -> {
                     // Being sure entities are still valid and not picked up or whatsoever.
                     if (rune.isValid() && item.isValid() && itemStack.getAmount() == 1) {
 
@@ -99,13 +99,13 @@ public class FireproofRune extends SimpleSlimefunItem<ItemDropHandler> {
                         setFireproof(itemStack);
                         l.getWorld().dropItemNaturally(l, itemStack);
 
-                        Utils.send(p, "&a你的物品现在是防火的了");
+                        Utils.send(p, "&aVật phẩm của bạn đã chống cháy");
                     } else {
-                        Utils.send(p, "&c你的物品不能防火");
+                        Utils.send(p, "&cVật phẩm của bạn không thể chống cháy");
                     }
                 }, 10L);
             } else {
-                Utils.send(p, "&c你的物品不能防火");
+                Utils.send(p, "&cVật phẩm của bạn không thể chống cháy");
             }
         }
     }

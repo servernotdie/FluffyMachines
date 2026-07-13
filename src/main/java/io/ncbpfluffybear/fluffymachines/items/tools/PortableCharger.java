@@ -26,7 +26,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -71,11 +70,11 @@ public class PortableCharger extends SimpleSlimefunItem<ItemUseHandler> implemen
             final Rechargeable charger = (Rechargeable) SlimefunItem.getByItem(chargerItem);
 
             // Create GUI Items
-            Inventory inventory = Bukkit.createInventory(null, INV_SIZE, ChatColor.GOLD + "便携充电器");
+            Inventory inventory = Bukkit.createInventory(null, INV_SIZE, ChatColor.GOLD + "Sạc di động");
 
             ItemStack backgroundItem = Utils.buildNonInteractable(Material.GRAY_STAINED_GLASS_PANE, null);
             ItemStack borderItem = Utils.buildNonInteractable(Material.YELLOW_STAINED_GLASS_PANE, null);
-            ItemStack powerItem = Utils.buildNonInteractable(Material.GLOWSTONE, "&4电力");
+            ItemStack powerItem = Utils.buildNonInteractable(Material.GLOWSTONE, "&4Năng lượng");
 
             // Build and open GUI
             for (int i = 0; i < INV_SIZE; i++)
@@ -85,31 +84,29 @@ public class PortableCharger extends SimpleSlimefunItem<ItemUseHandler> implemen
                 inventory.setItem(slot, borderItem);
 
             inventory.setItem(POWER_SLOT, powerItem);
-            updateSlot(inventory, POWER_SLOT, "&6&l剩余电量",
+            updateSlot(inventory, POWER_SLOT, "&6&lNăng lượng còn lại",
                 "&e" + charger.getItemCharge(chargerItem) + "J");
             inventory.clear(CHARGE_SLOT);
             p.openInventory(inventory);
 
-            // Task that triggers every second
-            new BukkitRunnable() {
-                public void run() {
+            p.getScheduler().runAtFixedRate(plugin, task -> {
 
                     ItemStack deviceItem = inventory.getItem(CHARGE_SLOT);
                     SlimefunItem sfItem = SlimefunItem.getByItem(deviceItem);
 
                     if (sfItem instanceof PortableCharger) {
                         p.closeInventory();
-                        Utils.send(p, "&c你不能为便携充电器充电");
+                        Utils.send(p, "&cBạn không thể sạc Sạc di động");
                     }
 
                     if (sfItem instanceof Rechargeable) {
                         Rechargeable device = (Rechargeable) sfItem;
                         float neededCharge = device.getMaxItemCharge(deviceItem)
                             - device.getItemCharge(deviceItem);
-                        // fix: 充电器物品不再有效时，停止充电
+                        // fix: Dừng sạc khi vật phẩm sạc không còn hiệu lực
                         if (chargerItem == null || chargerItem.getType().isAir()) {
-                            cancel();
-                            Utils.send(p, "&c你把便携充电器放哪儿了？");
+                            task.cancel();
+                            Utils.send(p, "&cBạn đã để Sạc di động ở đâu?");
                             return;
                         }
                         float availableCharge = charger.getItemCharge(chargerItem);
@@ -129,31 +126,31 @@ public class PortableCharger extends SimpleSlimefunItem<ItemUseHandler> implemen
                             }
 
                         } else if (neededCharge == 0) {
-                            Utils.send(p, "&c便携充电器电量已经满了!");
+                            Utils.send(p, "&cSạc di động đã đầy!");
 
                         } else {
-                            Utils.send(p, "&c你的便携充电器没电了!");
+                            Utils.send(p, "&cSạc di động của bạn đã hết pin!");
                         }
 
                         // The name of the powerItem NEEDS to be "Portable Charger" to cancel event
-                        updateSlot(inventory, POWER_SLOT, "&6&l剩余电量",
+                        updateSlot(inventory, POWER_SLOT, "&6&lNăng lượng còn lại",
                             "&e" + charger.getItemCharge(chargerItem) + "J");
                     }
 
                     // Check if GUI is no longer open
                     if (!inventory.getViewers().contains(p)) {
-                        cancel();
+                        task.cancel();
 
                         ItemStack forgottenItem = inventory.getItem(CHARGE_SLOT);
 
                         // Check if player left an item inside
                         if (forgottenItem != null) {
-                            Utils.send(p, "&c你忘记取出物品了，现在还给你");
+                            Utils.send(p, "&cBạn quên lấy vật phẩm ra, trả lại cho bạn");
                             Utils.giveOrDropItem(p, forgottenItem);
                         }
                     }
                 }
-            }.runTaskTimer(plugin, 0, 20);
+            , null, 1L, 20L);
         };
     }
 
@@ -162,7 +159,7 @@ public class PortableCharger extends SimpleSlimefunItem<ItemUseHandler> implemen
         SlimefunItem sfItem1 = SlimefunItem.getByItem(e.getCurrentItem());
         SlimefunItem sfItem2 = SlimefunItem.getByItem(e.getCursor());
         if ((sfItem1 instanceof PortableCharger || sfItem2 instanceof PortableCharger)
-            && e.getWhoClicked().getOpenInventory().getTitle().contains("便携充电器")) {
+            && e.getWhoClicked().getOpenInventory().getTitle().contains("Sạc di động")) {
             e.setCancelled(true);
         }
     }

@@ -26,7 +26,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,7 +39,7 @@ import java.util.stream.IntStream;
 public class Dolly extends SimpleSlimefunItem<ItemUseHandler> {
 
     private static final ItemStack LOCK_ITEM = Utils.buildNonInteractable(
-            Material.DIRT, "&4&l错误", "&c你要搬到哪里?"
+            Material.DIRT, "&4&lLỗi", "&cBạn muốn di chuyển đến đâu?"
     );
 
     private ItemSetting<Boolean> canPickupLockedChest = new ItemSetting<>(this, "can-pick-locked-chest", true);
@@ -63,7 +62,7 @@ public class Dolly extends SimpleSlimefunItem<ItemUseHandler> {
             Player p = e.getPlayer();
 
             if (timeouts.containsKey(p) && timeouts.get(p) + DELAY > System.currentTimeMillis()) {
-                Utils.send(p, "&c你需要等待一会才能再次使用箱子搬运车!");
+                Utils.send(p, "&cBạn cần đợi một lát trước khi sử dụng Xe chở rương lại!");
                 return;
             }
 
@@ -89,7 +88,7 @@ public class Dolly extends SimpleSlimefunItem<ItemUseHandler> {
                     PlayerProfile.get(p, profile -> {
                         PlayerBackpack bp = Slimefun.getDatabaseManager().getProfileDataController().createBackpack(
                                 p,
-                                "&b箱子搬运车",
+                                "&bXe chở rương",
                                 profile.nextBackpackNum(),
                                 54
                         );
@@ -99,7 +98,7 @@ public class Dolly extends SimpleSlimefunItem<ItemUseHandler> {
                         if (Bukkit.isPrimaryThread()) {
                             pickupChest(dolly, bp, b, p);
                         } else {
-                            Utils.runSync(() -> pickupChest(dolly, bp, b, p));
+                            Utils.runSync(b.getLocation(), () -> pickupChest(dolly, bp, b, p));
                         }
                     });
                 } else {
@@ -130,7 +129,7 @@ public class Dolly extends SimpleSlimefunItem<ItemUseHandler> {
         // Dolly full/empty status determined by lock item in first slot
         // Make sure the dolly is empty
         if (!isLockItem(backpack.getInventory().getItem(0))) {
-            Utils.send(p, "&c该箱子搬运车已经拿起了一个箱子!");
+            Utils.send(p, "&cXe chở rương này đã nhặt một cái rương!");
             return;
         }
 
@@ -172,7 +171,7 @@ public class Dolly extends SimpleSlimefunItem<ItemUseHandler> {
         }
 
         chest.setType(Material.AIR);
-        Utils.send(p, "&a你拿起了箱子");
+        Utils.send(p, "&aBạn đã nhặt rương");
     }
 
     private void placeChest(ItemStack dolly, Block chestBlock, Player p) {
@@ -191,33 +190,29 @@ public class Dolly extends SimpleSlimefunItem<ItemUseHandler> {
             final ItemStack[][] bpContents = {backpack.getInventory().getContents()};
 
             if (isLockItem(bpContents[0][0])) {
-                Utils.send(p, "&c你必须拿起一个箱子!");
+                Utils.send(p, "&cBạn phải nhặt một cái rương!");
                 return;
             }
 
             boolean singleChest = isLockItem(bpContents[0][27]);
             if (!canChestFit(chestBlock, p, singleChest)) {
-                Utils.send(p, "&c该箱子无法放置于此处!");
+                Utils.send(p, "&cKhông thể đặt rương ở đây!");
                 return;
             }
 
-            Utils.runSync(new BukkitRunnable() {
-                @Override
-                public void run() {
-                    createChest(chestBlock, p, singleChest);
-                    backpack.getInventory().setItem(0, LOCK_ITEM);
-                    Slimefun.getDatabaseManager().getProfileDataController().saveBackpackInventory(backpack, 0);
+            Utils.runSync(chestBlock.getLocation(), () -> {
+                createChest(chestBlock, p, singleChest);
+                backpack.getInventory().setItem(0, LOCK_ITEM);
+                Slimefun.getDatabaseManager().getProfileDataController().saveBackpackInventory(backpack, 0);
 
-                    // Shrink contents size if single chest
-                    if (singleChest) {
-                        bpContents[0] = Arrays.copyOf(bpContents[0], 27);
-                    }
-
-                    ((InventoryHolder) chestBlock.getState()).getInventory().setStorageContents(bpContents[0]);
-                    Slimefun.getDatabaseManager().getProfileDataController().saveBackpackInventory(backpack, IntStream.range(0, backpack.getSize()).boxed().toArray(Integer[]::new));
-                    dolly.setType(Material.MINECART);
-                    Utils.send(p, "&a已放置箱子");
+                if (singleChest) {
+                    bpContents[0] = Arrays.copyOf(bpContents[0], 27);
                 }
+
+                ((InventoryHolder) chestBlock.getState()).getInventory().setStorageContents(bpContents[0]);
+                Slimefun.getDatabaseManager().getProfileDataController().saveBackpackInventory(backpack, IntStream.range(0, backpack.getSize()).boxed().toArray(Integer[]::new));
+                dolly.setType(Material.MINECART);
+                Utils.send(p, "&aĐã đặt rương");
             });
         }, false);
     }

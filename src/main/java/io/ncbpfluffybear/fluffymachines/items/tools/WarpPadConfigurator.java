@@ -80,14 +80,14 @@ public class WarpPadConfigurator extends SlimefunItem implements HologramOwner, 
                             PersistentDataAPI.setInt(meta, yCoord, b.getY());
                             PersistentDataAPI.setInt(meta, zCoord, b.getZ());
                             lore.set(LORE_COORDINATE_INDEX, ChatColor.translateAlternateColorCodes(
-                                '&', "&e连接点坐标: &7" + b.getX() + ", " + b.getY() + ", " + b.getZ()));
+                                '&', "&eTọa độ kết nối: &7" + b.getX() + ", " + b.getY() + ", " + b.getZ()));
 
                             meta.setLore(lore);
                             item.setItemMeta(meta);
 
-                            updateHologram(b, "&a&l终点");
+                            updateHologram(b, "&a&lĐiểm đến");
                             blockData.setData("type", "destination");
-                            Utils.send(p, "&3此传送装置已标记为&a终点&3。已记录该传送装置的坐标。");
+                            Utils.send(p, "&3Bệ dịch chuyển này đã được đánh dấu là&a Điểm đến&3. Đã ghi lại tọa độ.");
                         }, false);
                     } else if (PersistentDataAPI.hasString(meta, world) && b.getWorld().getName().equals(
                         PersistentDataAPI.getString(meta, world))) {
@@ -100,8 +100,8 @@ public class WarpPadConfigurator extends SlimefunItem implements HologramOwner, 
                             if (Math.abs(x - b.getX()) > MAX_DISTANCE.getValue()
                                 || Math.abs(z - b.getZ()) > MAX_DISTANCE.getValue()) {
 
-                                Utils.send(p, "&c传送装置之间的直线距离不能超过"
-                                    + MAX_DISTANCE.getValue() + "个方块！");
+                                Utils.send(p, "&cKhoảng cách giữa các bệ dịch chuyển không thể vượt quá "
+                                    + MAX_DISTANCE.getValue() + " khối!");
 
                                 return;
                             }
@@ -111,16 +111,16 @@ public class WarpPadConfigurator extends SlimefunItem implements HologramOwner, 
                             blockData.setData("y", String.valueOf(y));
                             blockData.setData("z", String.valueOf(z));
 
-                            updateHologram(b, "&a&l起点");
+                            updateHologram(b, "&a&lĐiểm xuất phát");
 
-                            Utils.send(p, "&3此传送装置已标记为&a起点&3并设置了终点装置的坐标！");
+                            Utils.send(p, "&3Bệ dịch chuyển này đã được đánh dấu là&a Điểm xuất phát&3 và đã đặt tọa độ điểm đến!");
                         }, false);
                     } else {
-                        Utils.send(p, "&c蹲下 + 右键点击传送装置设置终点，右键点击另一个传送装置设置起点!");
+                        Utils.send(p, "&cNgồi xuống + Chuột phải vào bệ dịch chuyển để đặt điểm đến, chuột phải vào bệ dịch chuyển khác để đặt điểm xuất phát!");
                     }
                 }
             } else {
-                Utils.send(p, "&c使用传送装置配置器来配置传送装置");
+                Utils.send(p, "&cSử dụng Bộ cấu hình bệ dịch chuyển để cấu hình bệ dịch chuyển");
             }
         }
     }

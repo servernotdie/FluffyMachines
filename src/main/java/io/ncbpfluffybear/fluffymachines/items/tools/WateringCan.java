@@ -114,7 +114,7 @@ public class WateringCan extends SimpleSlimefunItem<ItemUseHandler> implements C
 
                             if (!updateUses(this, p, item, 1))
                                 return;
-                            blockLocation.getWorld().spawnParticle(Particle.WATER_SPLASH, blockLocation, 0);
+                            blockLocation.getWorld().spawnParticle(Particle.SPLASH, blockLocation, 0);
                             double random = ThreadLocalRandom.current().nextDouble();
                             if (random < sugarCaneSuccessChance.getValue()) {
                                 above.setType(Material.SUGAR_CANE);
@@ -134,7 +134,7 @@ public class WateringCan extends SimpleSlimefunItem<ItemUseHandler> implements C
 
                         if (currentAge < maxAge) {
                             if (updateUses(this, p, item, 1)) {
-                                blockLocation.getWorld().spawnParticle(Particle.WATER_SPLASH, blockLocation, 0);
+                                blockLocation.getWorld().spawnParticle(Particle.SPLASH, blockLocation, 0);
                                 double random = ThreadLocalRandom.current().nextDouble();
                                 if (random < cropSuccessChance.getValue()) {
                                     crop.setAge(currentAge + 1);
@@ -156,7 +156,7 @@ public class WateringCan extends SimpleSlimefunItem<ItemUseHandler> implements C
                             return;
                         }
 
-                        blockLocation.getWorld().spawnParticle(Particle.WATER_SPLASH, blockLocation, 0);
+                        blockLocation.getWorld().spawnParticle(Particle.SPLASH, blockLocation, 0);
                         double random = ThreadLocalRandom.current().nextDouble();
                         Material saplingMaterial = b.getType();
 
@@ -204,7 +204,7 @@ public class WateringCan extends SimpleSlimefunItem<ItemUseHandler> implements C
         if (updateType == 1) {
 
             if (usesLeft == 0) {
-                Utils.send(p, "&c你需要给你的喷壶加满水!");
+                Utils.send(p, "&cBạn cần đổ đầy nước vào bình tưới!");
                 return false;
             }
             p.playSound(p.getLocation(), Sound.ENTITY_DROWNED_AMBIENT_WATER, 0.5F, 1F);
@@ -212,12 +212,12 @@ public class WateringCan extends SimpleSlimefunItem<ItemUseHandler> implements C
 
         } else if (updateType == 2) {
             p.playSound(p.getLocation(), Sound.ENTITY_DROWNED_DEATH_WATER, 0.5F, 1F);
-            Utils.send(p, "&a你已经装满了你的喷壶");
+            Utils.send(p, "&aBạn đã đổ đầy bình tưới");
             usesLeft = can.getUses().getValue();
 
         } else if (updateType == 3) {
             if (usesLeft == 0) {
-                Utils.send(p, "&c你需要给你的喷壶加满水!");
+                Utils.send(p, "&cBạn cần đổ đầy nước vào bình tưới!");
                 return false;
             }
             usesLeft = 0;
@@ -226,7 +226,7 @@ public class WateringCan extends SimpleSlimefunItem<ItemUseHandler> implements C
             p.sendMessage("Error");
         }
 
-        lore.set(USE_INDEX, ChatColors.color("&a剩余水量: &e" + usesLeft));
+        lore.set(USE_INDEX, ChatColors.color("&aLượng nước còn lại: &e" + usesLeft));
         meta.setLore(lore);
         meta.getPersistentDataContainer().set(usageKey, PersistentDataType.INTEGER, usesLeft);
         item.setItemMeta(meta);

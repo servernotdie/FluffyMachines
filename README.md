@@ -1,15 +1,15 @@
-# FluffyMachines 蓬松机器
+# FluffyMachines Máy móc Mềm mại
 
-这些是我随手做的一些机器。我添加了我能想得到的，或是别的附属不想添加的东西。
+Đây là một số máy móc tôi làm ra. Tôi thêm vào những thứ tôi nghĩ đến, hoặc những thứ mà các addon khác không muốn thêm.
 
-可以在 `plugins/Slimefun/Items.yml` 内调整设置。
+Có thể điều chỉnh cài đặt trong `plugins/Slimefun/Items.yml`.
 
-<!-- 魔改内容:
-- 手摇发电机可启用频率限制(如果使用汉化版构建#4及以前的版本，请注意更新配置文件，建议删除旧配置文件) -->
+<!-- Nội dung mod:
+- Máy phát điện quay tay có thể bật giới hạn tần suất (nếu sử dụng bản dựng汉化版 #4 trở về trước, hãy chú ý cập nhật tệp cấu hình, khuyến nghị xóa tệp cấu hình cũ) -->
 
-## 下载
+## Tải xuống
 
-点击这里下载 FluffyMachines: [下载 FluffyMachines](https://builds.guizhanss.net/baoad/FluffyMachines/master)
+Nhấn vào đây để tải FluffyMachines: [Tải FluffyMachines](https://builds.guizhanss.net/baoad/FluffyMachines/master)
 
 <p align="center">
   <a href="https://github.com/baoad/FluffyMachines/actions/workflows/maven.yml">
@@ -21,77 +21,86 @@
   </a>
 </p>
 
-## 机器
+## Máy móc
 
-**全自动工作台**: 自动合成原版配方
+**Bàn chế tạo tự động hoàn toàn**: Tự động chế tạo công thức gốc (vanilla)
 
-**全自动盔甲锻造台**: 自动合成盔甲锻造台配方
+**Bàn rèn giáp tự động hoàn toàn**: Tự động chế tạo công thức bàn rèn giáp
 
-**全自动魔法工作台**: 自动合成魔法工作台配方
+**Bàn chế tạo ma thuật tự động hoàn toàn**: Tự động chế tạo công thức bàn chế tạo ma thuật
 
-**全自动古代祭坛**: 自动合成古代祭坛配方
+**Bàn tế cổ đại tự động hoàn toàn**: Tự động chế tạo công thức bàn tế cổ đại
 
-**全自动台锯**: 自动合成台锯配方
+**Cưa bàn tự động hoàn toàn**: Tự động chế tạo công thức cưa bàn
 
-**洒水机**: 洒水机可以加速2格内的作物生长
+**Máy tưới nước**: Máy tưới nước có thể tăng tốc độ phát triển của cây trồng trong phạm vi 2 ô
 
-**背包装载机**: 把东西放到背包中
+**Máy nạp túi đồ**: Đặt đồ vật vào túi
 
-**背包卸载机**: 从背包中拿出东西
+**Máy dỡ túi đồ**: Lấy đồ vật ra khỏi túi
 
-**高级全自动驱魔机 & 远古之书**: 允许玩家从物品中提取特定的附魔，需要使用古代书籍。
+**Máy trừ tà tự động cao cấp & Sách cổ xưa**: Cho phép người chơi trích xuất phù phép cụ thể từ vật phẩm, cần sử dụng sách cổ đại.
 
-**粉尘制造机**: 可直接将圆石制作成矿粉
+**Máy sản xuất bụi quặng**: Có thể trực tiếp biến đá cuội thành bụi quặng
 
-**粉尘回收机**: 可以将矿粉变成筛矿
+**Máy thu hồi bụi quặng**: Có thể biến bụi quặng thành quặng sàng
 
-**高级充电台 & 高级充电台升级卡片**: 可以用升级卡片来升级的充电台
+**Trạm sạc cao cấp & Thẻ nâng cấp trạm sạc cao cấp**: Trạm sạc có thể nâng cấp bằng thẻ nâng cấp
 
-## 发电机
+## Máy phát điện
 
-**手摇发电机**: 多方快结构，可以在点击拉杆时发电
+**Máy phát điện quay tay**: Cấu trúc nhiều khối, có thể phát điện khi nhấn cần gạt
 
-## 物品
+## Vật phẩm
 
-**喷壶**: 给植物或树苗浇水来加速成长
+**Bình tưới**: Tưới nước cho cây hoặc cây con để tăng tốc phát triển
 
-**直升机帽**: 起飞~~~~
+**Mũ trực thăng**: Cất cánh~~~~
 
-**防火符文**: 给物品附上防火属性
+**Bùa chống cháy**: Gắn thuộc tính chống cháy cho vật phẩm
 
-**运输车**: 允许玩家拿起箱子并放到别的地方。保留箱子里的物品。
+**Xe vận chuyển**: Cho phép người chơi nhấc rương và đặt ở nơi khác. Giữ nguyên vật phẩm trong rương.
 
-## 工具
+## Công cụ
 
-**改进爆炸镐 & 爆炸铲**: 破坏前方5x5所有方块，而不是以自身为中心的3x3的方块。可以触发mcMMO的技能。这些可以在`Items.yml`内配置。
+**Cúp nổ cải tiến & Xẻng nổ**: Phá hủy tất cả khối 5x5 phía trước, thay vì 3x3 xung quanh bản thân. Có thể kích hoạt kỹ năng mcMMO. Có thể cấu hình trong `Items.yml`.
 
-**改进伐木斧**: 可以破坏两个内任何相邻的原木，在砍大橡树、金合欢树或丛林树时特别有用。
+**Rìu chặt cây cải tiến**: Có thể phá hủy bất kỳ khối gỗ liền kề nào trong phạm vi 2 khối, đặc biệt hữu ích khi chặt sồi lớn, keo hoặc rừng rậm.
 
-**镰刀**: 一下子收获5个植物
+**Lưỡi hái**: Thu hoạch 5 cây cùng một lúc
 
-**多功能工具**: 镐、斧、铲三合一工具。
+**Công cụ đa năng**: Công cụ ba trong một: cúp, rìu, xẻng.
 
-## 其它
+## Khác
 
-**末影箱提取节点**: 将物品从末影箱提取到普通箱子中
+**Nút trích xuất rương Ender**: Trích xuất vật phẩm từ rương Ender vào rương thường
 
-**末影箱输入节点**: 将物品从普通箱子输入到末影箱中
+**Nút nhập rương Ender**: Nhập vật phẩm từ rương thường vào rương Ender
 
-*提取与输入节点不会堆叠物品，这会带来更多的性能消耗。你可以使用货运来处理。*
+*Các nút trích xuất và nhập sẽ không xếp chồng vật phẩm, điều này gây hao tổn hiệu suất nhiều hơn. Bạn có thể sử dụng vận chuyển hàng hóa để xử lý.*
 
-**铸造厂 & 超热炉**: 允许存储矿粉，也可以直接烧成矿锭取出。
+**Lò đúc & Lò siêu nhiệt**: Cho phép lưu trữ bụi quặng, cũng có thể nung trực tiếp thành thỏi quặng để lấy ra.
 
-**蓬松箱子**: 存储容器，可以存储一种物品
+**Rương Mềm mại**: Thùng chứa, có thể lưu trữ một loại vật phẩm
 
-**传送装置 & 传送装置配置器**: 短途传送装置
+**Thiết bị dịch chuyển & Bộ cấu hình thiết bị dịch chuyển**: Thiết bị dịch chuyển tầm ngắn
 
-**备用电梯板**: 与 Slimefun 电梯板一致。
+**Bảng thang máy dự phòng**: Tương tự bảng thang máy Slimefun.
 
-**便携充电器**: 多个等级的手持版充电站，让玩家可以在任何地方充电。
+**Sạc di động**: Trạm sạc cầm tay nhiều cấp độ, cho phép người chơi sạc ở bất cứ đâu.
 
-## 常见问题 (FAQ)
+## Câu hỏi thường gặp (FAQ)
 
-#### 铸造厂可以接入货运系统吗?
+#### Lò đúc có thể kết nối với hệ thống vận chuyển hàng hóa không?
 
-可以，不过你不能直接对着超热炉放置节点。  
-在原本要放置超热炉的地方放上箱子，接入货运节点。然后，将箱子替换为超热炉即可。
+Có thể, nhưng bạn không thể đặt nút trực tiếp vào Lò siêu nhiệt.  
+Đặt rương vào vị trí ban đầu định đặt Lò siêu nhiệt, kết nối nút vận chuyển. Sau đó, thay thế rương bằng Lò siêu nhiệt.
+
+## Này bản fork từ upstream của nhóm dev người TQ xong dịch :D ờ có công tui patch hỗ trợ folia nữa :D 
+
+- Mà mấy đường link tải trực tiếp trên readme này tại tui lười chỉnh với muốn ghi công của họ , khuyên nên tải từ release 
+- Có thể bản dịch không đúng lắm mong thông cảm dùm 
+
+Credit: 
+---
+[SlimefunGuguProject](https://github.com/SlimefunGuguProject/FluffyMachines)

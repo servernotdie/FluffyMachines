@@ -58,7 +58,7 @@ public class AlternateElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> 
             @Override
             public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
                 Block b = e.getBlock();
-                StorageCacheUtils.setData(b.getLocation(), DATA_KEY, "&f楼层 #0");
+                StorageCacheUtils.setData(b.getLocation(), DATA_KEY, "&fTầng #0");
                 StorageCacheUtils.setData(b.getLocation(), "owner", e.getPlayer().getUniqueId().toString());
             }
         };
@@ -123,7 +123,7 @@ public class AlternateElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> 
 
     @ParametersAreNonnullByDefault
     private void openFloorSelector(Block b, List<Block> floors, Player p) {
-        ChestMenu elevatorMenu = new ChestMenu("电梯");
+        ChestMenu elevatorMenu = new ChestMenu("Thang máy");
         for (int i = 0; i < floors.size(); i++) {
 
             if (i > MAX_CHEST_INDEX) {
@@ -148,7 +148,7 @@ public class AlternateElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> 
 
     @ParametersAreNonnullByDefault
     private void teleport(Player player, String floorName, Block target) {
-        Utils.runSync(() -> {
+        Utils.runSync(player, () -> {
             users.add(player.getUniqueId());
 
             float yaw = player.getEyeLocation().getYaw() + 180;
@@ -170,9 +170,9 @@ public class AlternateElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> 
 
     @ParametersAreNonnullByDefault
     public void openEditor(Player p, Block b) {
-        ChestMenu menu = new ChestMenu("电梯设置");
+        ChestMenu menu = new ChestMenu("Cài đặt thang máy");
 
-        menu.addItem(4, new CustomItemStack(Material.NAME_TAG, "&7设置楼层名字&e(点击我)", "",
+        menu.addItem(4, new CustomItemStack(Material.NAME_TAG, "&7Đặt tên tầng&e(Nhấp vào tôi)", "",
             "&f" + ChatColors.color(StorageCacheUtils.getData(b.getLocation(), DATA_KEY))));
         menu.addMenuClickHandler(4, (pl, slot, item, action) -> {
             pl.closeInventory();

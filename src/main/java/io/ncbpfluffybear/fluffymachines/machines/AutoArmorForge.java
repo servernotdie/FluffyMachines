@@ -10,6 +10,6 @@ import org.bukkit.inventory.ItemStack;
 public class AutoArmorForge extends AutoCrafter {
 
     public AutoArmorForge(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe, "&7全自动盔甲锻造台", Material.ANVIL, "&7盔甲锻造台", RecipeType.ARMOR_FORGE);
+        super(category, item, recipeType, recipe, "&7Bàn rèn giáp tự động", Material.ANVIL, "&7Bàn rèn giáp", RecipeType.ARMOR_FORGE);
     }
 }

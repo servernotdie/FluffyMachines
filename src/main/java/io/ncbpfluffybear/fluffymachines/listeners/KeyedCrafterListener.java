@@ -53,7 +53,7 @@ public class KeyedCrafterListener implements Listener {
                 e.cancel();
 
                 if (key == null) {
-                    Utils.send(p, "&c该机器不支持原版物品!");
+                    Utils.send(p, "&cMáy này không hỗ trợ vật phẩm vanilla!");
                     return;
                 }
 
@@ -63,9 +63,9 @@ public class KeyedCrafterListener implements Listener {
                     StorageCacheUtils.getMenu(b.getLocation()).replaceExistingItem(SmartFactory.RECIPE_SLOT,
                             SmartFactory.getDisplayItem(key, ((RecipeDisplayItem) sfBlock).getDisplayRecipes())
                     );
-                    Utils.send(p, "&a已设置目标物品为 " + key.getItemName());
+                    Utils.send(p, "&aĐã đặt vật phẩm mục tiêu thành " + key.getItemName());
                 } else {
-                    Utils.send(p, "&c目标物品暂不支持!");
+                    Utils.send(p, "&cVật phẩm mục tiêu tạm thời không được hỗ trợ!");
                 }
 
             } else if (sfBlock instanceof AutoCraftingTable) {
@@ -76,7 +76,7 @@ public class KeyedCrafterListener implements Listener {
                 e.cancel();
 
                 if (item.getType() == Material.AIR) {
-                    Utils.send(p, "&c手持物品Shift+右键点击机器以设置配方");
+                    Utils.send(p, "&cCầm vật phẩm Shift+Nhấp chuột phải vào máy để đặt công thức");
                     return;
                 }
 
@@ -84,7 +84,7 @@ public class KeyedCrafterListener implements Listener {
                         AutoCraftingTable.createKeyItem(item.getType())
                 );
 
-                Utils.send(p, "&a已设置目标物品为 " + ItemStackHelper.getDisplayName(item)
+                Utils.send(p, "&aĐã đặt vật phẩm mục tiêu thành " + ItemStackHelper.getDisplayName(item)
                 );
             }
         }

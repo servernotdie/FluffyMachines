@@ -67,7 +67,7 @@ public class AutoTableSaw extends SlimefunItem implements EnergyNetComponent {
             tableSawRecipes.put(new ItemStack(plank), new ItemStack(Material.STICK, 4));
         }
 
-        new BlockMenuPreset(getId(), "&6全自动台锯") {
+        new BlockMenuPreset(getId(), "&6Cưa bàn tự động") {
 
             @Override
             public void init() {
@@ -78,8 +78,8 @@ public class AutoTableSaw extends SlimefunItem implements EnergyNetComponent {
             public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
                 SlimefunBlockData blockData = StorageCacheUtils.getBlock(b.getLocation());
                 if (blockData.getData("enabled") == null || String.valueOf(false).equals(blockData.getData("enabled"))) {
-                    menu.replaceExistingItem(6, new CustomItemStack(Material.GUNPOWDER, "&7启用: &4\u2718",
-                        "", "&e> 点击开启")
+                    menu.replaceExistingItem(6, new CustomItemStack(Material.GUNPOWDER, "&7Kích hoạt: &4\u2718",
+                        "", "&e> Nhấp để bật")
                     );
                     menu.addMenuClickHandler(6, (p, slot, item, action) -> {
                         blockData.setData("enabled", String.valueOf(true));
@@ -87,8 +87,8 @@ public class AutoTableSaw extends SlimefunItem implements EnergyNetComponent {
                         return false;
                     });
                 } else {
-                    menu.replaceExistingItem(6, new CustomItemStack(Material.REDSTONE, "&7启用: &2\u2714",
-                        "", "&e> 点击关闭"));
+                    menu.replaceExistingItem(6, new CustomItemStack(Material.REDSTONE, "&7Kích hoạt: &2\u2714",
+                        "", "&e> Nhấp để tắt"));
                     menu.addMenuClickHandler(6, (p, slot, item, action) -> {
                         blockData.setData("enabled", String.valueOf(false));
                         newInstance(menu, b);
@@ -159,9 +159,9 @@ public class AutoTableSaw extends SlimefunItem implements EnergyNetComponent {
     protected void constructMenu(BlockMenuPreset preset) {
 
         borders(preset, border, inputBorder, outputBorder);
-        preset.addItem(2, new CustomItemStack(new ItemStack(Material.STONECUTTER), "&e使用方法", "",
-                "&b把将要制作的物品配方放入里面",
-                "&4仅支持台锯的配方"
+        preset.addItem(2, new CustomItemStack(new ItemStack(Material.STONECUTTER), "&eCách sử dụng", "",
+                "&bĐặt công thức vật phẩm muốn chế tạo vào bên trong",
+                "&4Chỉ hỗ trợ công thức của cưa bàn"
             ),
             ChestMenuUtils.getEmptyClickHandler());
     }

@@ -66,9 +66,9 @@ public class Events implements Listener {
             e.setCancelled(true);
             Entity target = e.getRightClicked();
             if (target instanceof Player && WateringCan.updateUses(wateringCan, p, item, 3)) {
-                Utils.send(p, "&b喷水!");
-                Utils.send((Player) target, "&b你被水溅到了" + p.getDisplayName() + "!");
-                ((Player) target).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 1));
+                Utils.send(p, "&bPhun nước!");
+                Utils.send((Player) target, "&bBạn bị " + p.getDisplayName() + " té nước!");
+                ((Player) target).addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 60, 1));
             }
         }
     }
@@ -157,7 +157,7 @@ public class Events implements Listener {
                             destination.setPitch(pitch);
                             destination.setYaw(yaw);
 
-                            Utils.runSync(() -> {
+                            Utils.runSync(p, () -> {
                                 p.teleport(destination.add(0.5, 1, 0.5));
 
                                 p.playSound(p.getLocation(), Sound.ITEM_CHORUS_FRUIT_TELEPORT, 0.5F, 0.5F);
@@ -165,7 +165,7 @@ public class Events implements Listener {
                             }, 1);
                         }, false);
                     } else {
-                        Utils.send(p, "&c缺少传送装置!");
+                        Utils.send(p, "&cThiếu bệ dịch chuyển!");
                     }
                 }, false);
             }
@@ -195,7 +195,7 @@ public class Events implements Listener {
                                     || destination.getBlock().getRelative(BlockFace.UP).getType() == Material.AIR
                                     || destination.getBlock().getRelative(BlockFace.UP, 2).getType() == Material.AIR
                             ) {
-                                Utils.send(p, "&c缺少传送装置!");
+                                Utils.send(p, "&cThiếu bệ dịch chuyển!");
                                 return;
                             }
 
@@ -210,7 +210,7 @@ public class Events implements Listener {
 
                         @Override
                         public void onResultNotFound() {
-                            Utils.send(p, "&c缺少传送装置!");
+                            Utils.send(p, "&cThiếu bệ dịch chuyển!");
                         }
                     }
             );
@@ -234,7 +234,7 @@ public class Events implements Listener {
     public void onExtractionNodePlace(BlockPlaceEvent e) {
         if ((e.getBlock().getY() != e.getBlockAgainst().getY() || e.getBlockAgainst().getType() != Material.ENDER_CHEST)
             && isExtractionNode(e.getItemInHand())) {
-            Utils.send(e.getPlayer(), "&c你只能把这个放在末影箱旁边!");
+            Utils.send(e.getPlayer(), "&cBạn chỉ có thể đặt cái này bên cạnh Rương Ender!");
             e.setCancelled(true);
         }
     }

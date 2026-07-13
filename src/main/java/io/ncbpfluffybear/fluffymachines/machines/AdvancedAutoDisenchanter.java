@@ -64,9 +64,9 @@ public class AdvancedAutoDisenchanter extends SlimefunItem implements EnergyNetC
     private static final Map<BlockPosition, Integer> progress = new HashMap<>();
 
     private static final ItemStack DEFAULT_SELECTION_ITEM = new CustomItemStack(Material.ENCHANTED_BOOK,
-        "&5附魔选择器", "", "&e> 点进重新扫描 <");
+        "&5Bộ chọn phép", "", "&e> Nhấp để quét lại <");
 
-    private static final ItemStack PROGRESS_ITEM = new CustomItemStack(Material.EXPERIENCE_BOTTLE, "&a进度");
+    private static final ItemStack PROGRESS_ITEM = new CustomItemStack(Material.EXPERIENCE_BOTTLE, "&aTiến trình");
 
     public AdvancedAutoDisenchanter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -74,7 +74,7 @@ public class AdvancedAutoDisenchanter extends SlimefunItem implements EnergyNetC
         addItemHandler(onBreak());
         addItemSetting(useLevelLimit, levelLimit);
 
-        new BlockMenuPreset(getId(), "&c高级全自动祛魔机") {
+        new BlockMenuPreset(getId(), "&cMáy xóa phép tự động cao cấp") {
 
             @Override
             public void init() {
@@ -256,9 +256,9 @@ public class AdvancedAutoDisenchanter extends SlimefunItem implements EnergyNetC
         List<String> lore = new ArrayList<>();
 
         if (inv.getItemInSlot(ITEM_SLOT) == null) {
-            lore.add(Utils.color("&c请放入物品"));
+            lore.add(Utils.color("&cVui lòng đặt vật phẩm"));
             lore.add("");
-            lore.add(Utils.color("&e> 点击重新扫描 <"));
+            lore.add(Utils.color("&e> Nhấp để quét lại <"));
             setSelectionItem(inv, lore);
             setSelectedIndex(b, -2);
             return;
@@ -266,9 +266,9 @@ public class AdvancedAutoDisenchanter extends SlimefunItem implements EnergyNetC
 
         // Can't disenchant item
         if (itemEnchants.isEmpty()) {
-            lore.add(Utils.color("&c该物品没有可用的附魔!"));
+            lore.add(Utils.color("&cVật phẩm này không có phép nào khả dụng!"));
             lore.add("");
-            lore.add(Utils.color("&e> 点击重新扫描 <"));
+            lore.add(Utils.color("&e> Nhấp để quét lại <"));
             setSelectionItem(inv, lore);
             setSelectedIndex(b, -2);
             return;
@@ -304,13 +304,13 @@ public class AdvancedAutoDisenchanter extends SlimefunItem implements EnergyNetC
     private void buildAndSetSelectionItem(Map<Enchantment, Integer> disenchants, BlockMenu menu, int selectionIndex) {
         List<String> lore = new ArrayList<>();
 
-        lore.add(Utils.color("&e> 点击切换需要提取的附魔 <"));
+        lore.add(Utils.color("&e> Nhấp để chuyển đổi phép cần trích xuất <"));
         lore.add("");
 
         if (selectionIndex == -1) {
-            lore.add(Utils.color("&a- 无"));
+            lore.add(Utils.color("&a- Không"));
         } else {
-            lore.add(Utils.color("&c- 无"));
+            lore.add(Utils.color("&c- Không"));
         }
 
         Enchantment[] disenchantKeys = disenchants.keySet().toArray(new Enchantment[0]); // Get indexed disenchants
@@ -367,7 +367,7 @@ public class AdvancedAutoDisenchanter extends SlimefunItem implements EnergyNetC
         ItemStack selectionItem = new ItemStack(Material.ENCHANTED_BOOK);
         ItemMeta itemMeta = selectionItem.getItemMeta();
 
-        itemMeta.setDisplayName(Utils.color("&5附魔选择器"));
+        itemMeta.setDisplayName(Utils.color("&5Bộ chọn phép"));
         itemMeta.setLore(lore);
         selectionItem.setItemMeta(itemMeta);
 

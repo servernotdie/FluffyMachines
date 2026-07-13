@@ -38,32 +38,32 @@ public class MiniBarrel extends Barrel {
     protected void buildMenu(BlockMenu menu, Block b) {
         super.buildMenu(menu, b);
         menu.replaceExistingItem(13, new CustomItemStack(Material.YELLOW_STAINED_GLASS_PANE,
-                "&e更改容量", "&7> 点击更改容量", "&e当前容量: " + getCapacity(b),
-                "&e最大限制: " + barrelCapacity.getValue()
+                "&eThay đổi dung lượng", "&7> Nhấp để thay đổi dung lượng", "&eDung lượng hiện tại: " + getCapacity(b),
+                "&eGiới hạn tối đa: " + barrelCapacity.getValue()
         ));
         menu.addMenuClickHandler(13, (p, slot, item, action) -> {
             p.closeInventory();
-            Utils.send(p, "&e请输入迷你蓬松箱子的容量. 最大限制为: " + barrelCapacity.getValue());
+            Utils.send(p, "&eVui lòng nhập dung lượng cho Rương Fluffy Mini. Giới hạn tối đa: " + barrelCapacity.getValue());
             ChatUtils.awaitInput(p, message -> {
                 String cleanMsg = message.replaceAll("[^0-9]", "");
                 int renameSize = NumberUtils.getInt(cleanMsg, 0);
 
                 if (renameSize == 0 || renameSize > barrelCapacity.getValue()) {
-                    Utils.send(p, "&c箱子容量必须为: 1 至 " + barrelCapacity.getValue());
+                    Utils.send(p, "&cDung lượng phải từ: 1 đến " + barrelCapacity.getValue());
                     return;
                 }
 
                 if (renameSize < getStored(b)) {
-                    Utils.send(p, "&c请在更改容量前移除多余的物品!");
+                    Utils.send(p, "&cVui lòng loại bỏ vật phẩm dư thừa trước khi thay đổi dung lượng!");
                     return;
                 }
 
                StorageCacheUtils.setData(b.getLocation(), "max-size", String.valueOf(renameSize));
                 menu.replaceExistingItem(13, new CustomItemStack(Material.YELLOW_STAINED_GLASS_PANE,
-                    "&e更改容量", "&7> 点击更改容量", "&e当前容量: " + renameSize,
-                    "&e最大限制: " + barrelCapacity.getValue()
+                    "&eThay đổi dung lượng", "&7> Nhấp để thay đổi dung lượng", "&eDung lượng hiện tại: " + renameSize,
+                    "&eGiới hạn tối đa: " + barrelCapacity.getValue()
                 ));
-                Utils.send(p, "&a已更改容量为: " + renameSize);
+                Utils.send(p, "&aĐã thay đổi dung lượng thành: " + renameSize);
                 updateMenu(b, menu, true, renameSize);
             });
             return false;

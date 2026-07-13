@@ -51,7 +51,7 @@ public class BackpackLoader extends SlimefunItem implements EnergyNetComponent {
 
         addItemHandler(onBreak());
 
-        new BlockMenuPreset(getId(), "&e背包装载机") {
+        new BlockMenuPreset(getId(), "&eMáy nạp ba lô") {
 
             @Override
             public void init() {

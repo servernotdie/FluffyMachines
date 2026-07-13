@@ -21,13 +21,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 
 public final class Utils {
 
@@ -70,7 +71,7 @@ public final class Utils {
     }
 
     public static String multiBlockWarning() {
-        return "&c这是个多方块结构!";
+        return "&cĐây là cấu trúc đa khối!";
     }
 
     // TODO: Deprecate custom model data method of detecting non interactables
@@ -169,14 +170,32 @@ public final class Utils {
     }
 
     // Don't use Slimefun's runsync
-    public static BukkitTask runSync(Runnable r) {
-        return FluffyMachines.getInstance() != null && FluffyMachines.getInstance().isEnabled() ?
-            Bukkit.getScheduler().runTask(FluffyMachines.getInstance(), r) : null;
+    public static void runSync(@Nonnull Entity anchor, @Nonnull Runnable r) {
+        if (FluffyMachines.getInstance() == null || !FluffyMachines.getInstance().isEnabled()) {
+            return;
+        }
+        anchor.getScheduler().run(FluffyMachines.getInstance(), task -> r.run(), null);
     }
 
-    public static BukkitTask runSync(Runnable r, long delay) {
-        return FluffyMachines.getInstance() != null && FluffyMachines.getInstance().isEnabled() ?
-            Bukkit.getScheduler().runTaskLater(FluffyMachines.getInstance(), r, delay) : null;
+    public static void runSync(@Nonnull Entity anchor, @Nonnull Runnable r, long delay) {
+        if (FluffyMachines.getInstance() == null || !FluffyMachines.getInstance().isEnabled()) {
+            return;
+        }
+        anchor.getScheduler().runDelayed(FluffyMachines.getInstance(), task -> r.run(), null, Math.max(1L, delay));
+    }
+
+    public static void runSync(@Nonnull Location anchor, @Nonnull Runnable r) {
+        if (FluffyMachines.getInstance() == null || !FluffyMachines.getInstance().isEnabled()) {
+            return;
+        }
+        Bukkit.getRegionScheduler().run(FluffyMachines.getInstance(), anchor, task -> r.run());
+    }
+
+    public static void runSync(@Nonnull Location anchor, @Nonnull Runnable r, long delay) {
+        if (FluffyMachines.getInstance() == null || !FluffyMachines.getInstance().isEnabled()) {
+            return;
+        }
+        Bukkit.getRegionScheduler().runDelayed(FluffyMachines.getInstance(), anchor, task -> r.run(), Math.max(1L, delay));
     }
 }
 
