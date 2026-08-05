@@ -77,6 +77,11 @@ public class AutoTableSaw extends SlimefunItem implements EnergyNetComponent {
             @Override
             public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
                 SlimefunBlockData blockData = StorageCacheUtils.getBlock(b.getLocation());
+
+                if (blockData == null || !blockData.isDataLoaded()) {
+                    return;
+                }
+
                 if (blockData.getData("enabled") == null || String.valueOf(false).equals(blockData.getData("enabled"))) {
                     menu.replaceExistingItem(6, new CustomItemStack(Material.GUNPOWDER, "&7Kích hoạt: &4\u2718",
                         "", "&e> Nhấp để bật")

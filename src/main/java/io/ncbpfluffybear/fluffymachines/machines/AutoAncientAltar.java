@@ -79,6 +79,11 @@ public class AutoAncientAltar extends SlimefunItem implements EnergyNetComponent
             @Override
             public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
                 SlimefunBlockData blockData = StorageCacheUtils.getBlock(b.getLocation());
+
+                if (blockData == null || !blockData.isDataLoaded()) {
+                    return;
+                }
+
                 blockData.setData("craftOnce", String.valueOf(false));
 
                 if (blockData.getData("enabled") == null || String.valueOf(false).equals(blockData.getData("enabled"))) {
@@ -260,8 +265,14 @@ public class AutoAncientAltar extends SlimefunItem implements EnergyNetComponent
 
     protected void tick(Block block) {
         SlimefunBlockData blockData = StorageCacheUtils.getBlock(block.getLocation());
+
+        if (blockData == null || !blockData.isDataLoaded()) {
+            return;
+        }
+
         String craftOnce = blockData.getData("craftOnce");
-        if (String.valueOf(false).equals(blockData.getData("enabled")) && craftOnce.equals("false")) {
+        if (String.valueOf(false).equals(blockData.getData("enabled"))
+                && !String.valueOf(true).equals(craftOnce)) {
             return;
         }
 
