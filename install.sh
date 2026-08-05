@@ -11,9 +11,7 @@ fi
 
 mvn install:install-file \
     -Dfile="${JAR_PATH}" \
-    -DgroupId=com.github.servernotdie \
-    -DartifactId=Slimefun4 \
-    -Dversion=79809c0a \
+    -DpomFile="${SCRIPT_DIR}/libs/Slimefun4-79809c0a.pom" \
     -Dpackaging=jar
 
 echo "Installed com.github.servernotdie:Slimefun4:79809c0a into the local Maven repository."
