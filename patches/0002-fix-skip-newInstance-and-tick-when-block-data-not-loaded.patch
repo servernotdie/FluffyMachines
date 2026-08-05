@@ -1,0 +1,95 @@
+From 8fce67350086a0650591f2b45787f6f060b433d0 Mon Sep 17 00:00:00 2001
+From: mytai20100 <142713298+Mytai20100@users.noreply.github.com>
+Date: Wed, 5 Aug 2026 22:07:57 +0700
+Subject: [PATCH] fix: skip newInstance and tick when block data not loaded
+
+---
+ .../fluffymachines/machines/AutoAncientAltar.java   | 13 ++++++++++++-
+ .../fluffymachines/machines/AutoCraftingTable.java  |  5 +++++
+ .../fluffymachines/machines/AutoTableSaw.java       |  5 +++++
+ .../fluffymachines/objects/AutoCrafter.java         |  5 +++++
+ 4 files changed, 27 insertions(+), 1 deletion(-)
+
+diff --git a/src/main/java/io/ncbpfluffybear/fluffymachines/machines/AutoAncientAltar.java b/src/main/java/io/ncbpfluffybear/fluffymachines/machines/AutoAncientAltar.java
+index ac246a9..db37d36 100644
+--- a/src/main/java/io/ncbpfluffybear/fluffymachines/machines/AutoAncientAltar.java
++++ b/src/main/java/io/ncbpfluffybear/fluffymachines/machines/AutoAncientAltar.java
+@@ -79,6 +79,11 @@ public class AutoAncientAltar extends SlimefunItem implements EnergyNetComponent
+             @Override
+             public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+                 SlimefunBlockData blockData = StorageCacheUtils.getBlock(b.getLocation());
++
++                if (blockData == null || !blockData.isDataLoaded()) {
++                    return;
++                }
++
+                 blockData.setData("craftOnce", String.valueOf(false));
+ 
+                 if (blockData.getData("enabled") == null || String.valueOf(false).equals(blockData.getData("enabled"))) {
+@@ -260,8 +265,14 @@ public class AutoAncientAltar extends SlimefunItem implements EnergyNetComponent
+ 
+     protected void tick(Block block) {
+         SlimefunBlockData blockData = StorageCacheUtils.getBlock(block.getLocation());
++
++        if (blockData == null || !blockData.isDataLoaded()) {
++            return;
++        }
++
+         String craftOnce = blockData.getData("craftOnce");
+-        if (String.valueOf(false).equals(blockData.getData("enabled")) && craftOnce.equals("false")) {
++        if (String.valueOf(false).equals(blockData.getData("enabled"))
++                && !String.valueOf(true).equals(craftOnce)) {
+             return;
+         }
+ 
+diff --git a/src/main/java/io/ncbpfluffybear/fluffymachines/machines/AutoCraftingTable.java b/src/main/java/io/ncbpfluffybear/fluffymachines/machines/AutoCraftingTable.java
+index 1ddad3a..e293010 100644
+--- a/src/main/java/io/ncbpfluffybear/fluffymachines/machines/AutoCraftingTable.java
++++ b/src/main/java/io/ncbpfluffybear/fluffymachines/machines/AutoCraftingTable.java
+@@ -70,6 +70,11 @@ public class AutoCraftingTable extends SlimefunItem implements EnergyNetComponen
+             @Override
+             public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+                 SlimefunBlockData blockData = StorageCacheUtils.getBlock(b.getLocation());
++
++                if (blockData == null || !blockData.isDataLoaded()) {
++                    return;
++                }
++
+                 if (blockData.getData("enabled") == null || String.valueOf(false).equals(blockData.getData("enabled"))) {
+                     menu.replaceExistingItem(4, new CustomItemStack(Material.GUNPOWDER, "&7Kích hoạt: &4\u2718",
+                             "", "&e> Nhấp để kích hoạt")
+diff --git a/src/main/java/io/ncbpfluffybear/fluffymachines/machines/AutoTableSaw.java b/src/main/java/io/ncbpfluffybear/fluffymachines/machines/AutoTableSaw.java
+index 2b376e4..f34ba4d 100644
+--- a/src/main/java/io/ncbpfluffybear/fluffymachines/machines/AutoTableSaw.java
++++ b/src/main/java/io/ncbpfluffybear/fluffymachines/machines/AutoTableSaw.java
+@@ -77,6 +77,11 @@ public class AutoTableSaw extends SlimefunItem implements EnergyNetComponent {
+             @Override
+             public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+                 SlimefunBlockData blockData = StorageCacheUtils.getBlock(b.getLocation());
++
++                if (blockData == null || !blockData.isDataLoaded()) {
++                    return;
++                }
++
+                 if (blockData.getData("enabled") == null || String.valueOf(false).equals(blockData.getData("enabled"))) {
+                     menu.replaceExistingItem(6, new CustomItemStack(Material.GUNPOWDER, "&7Kích hoạt: &4\u2718",
+                         "", "&e> Nhấp để bật")
+diff --git a/src/main/java/io/ncbpfluffybear/fluffymachines/objects/AutoCrafter.java b/src/main/java/io/ncbpfluffybear/fluffymachines/objects/AutoCrafter.java
+index 1d39da7..e4ce667 100644
+--- a/src/main/java/io/ncbpfluffybear/fluffymachines/objects/AutoCrafter.java
++++ b/src/main/java/io/ncbpfluffybear/fluffymachines/objects/AutoCrafter.java
+@@ -79,6 +79,11 @@ public class AutoCrafter extends SlimefunItem implements EnergyNetComponent {
+             @Override
+             public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+                 SlimefunBlockData blockData = StorageCacheUtils.getBlock(b.getLocation());
++
++                if (blockData == null || !blockData.isDataLoaded()) {
++                    return;
++                }
++
+                 if (blockData.getData("enabled") == null || String.valueOf(false).equals(blockData.getData("enabled"))) {
+                     menu.replaceExistingItem(6, new CustomItemStack(Material.GUNPOWDER, "&7Kích hoạt: &4\u2718", "",
+                         "&e> Nhấp để kích hoạt")
+-- 
+2.47.3
+
