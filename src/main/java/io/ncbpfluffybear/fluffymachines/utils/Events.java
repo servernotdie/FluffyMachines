@@ -6,11 +6,13 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.ncbpfluffybear.fluffymachines.FluffyMachines;
 import io.ncbpfluffybear.fluffymachines.items.Barrel;
 import io.ncbpfluffybear.fluffymachines.items.FireproofRune;
 import io.ncbpfluffybear.fluffymachines.items.HelicopterHat;
 import io.ncbpfluffybear.fluffymachines.items.tools.WateringCan;
 import io.ncbpfluffybear.fluffymachines.machines.AlternateElevatorPlate;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -145,28 +147,30 @@ public class Events implements Listener {
                     float yaw = p.getLocation().getYaw();
                     float pitch = p.getLocation().getPitch();
 
-                    SlimefunBlockData destData = StorageCacheUtils.getBlock(destination);
-                    if (destData != null
-                        && destination.getBlock().getRelative(BlockFace.UP).getType().isAir()
-                        && destination.getBlock().getRelative(BlockFace.UP, 2).getType().isAir()) {
+                    Bukkit.getRegionScheduler().run(FluffyMachines.getInstance(), destination, t -> {
+                        SlimefunBlockData destData = StorageCacheUtils.getBlock(destination);
+                        if (destData != null
+                            && destination.getBlock().getRelative(BlockFace.UP).getType().isAir()
+                            && destination.getBlock().getRelative(BlockFace.UP, 2).getType().isAir()) {
 
-                        StorageCacheUtils.executeAfterLoad(destData, () -> {
-                            if (!destData.getData("type").equals("destination")) {
-                                return;
-                            }
-                            destination.setPitch(pitch);
-                            destination.setYaw(yaw);
+                            StorageCacheUtils.executeAfterLoad(destData, () -> {
+                                if (!destData.getData("type").equals("destination")) {
+                                    return;
+                                }
+                                destination.setPitch(pitch);
+                                destination.setYaw(yaw);
 
-                            Utils.runSync(p, () -> {
-                                p.teleport(destination.add(0.5, 1, 0.5));
+                                Utils.runSync(p, () -> {
+                                    p.teleport(destination.add(0.5, 1, 0.5));
 
-                                p.playSound(p.getLocation(), Sound.ITEM_CHORUS_FRUIT_TELEPORT, 0.5F, 0.5F);
-                                p.spawnParticle(Particle.DRAGON_BREATH, p.getLocation(), 10);
-                            }, 1);
-                        }, false);
-                    } else {
-                        Utils.send(p, "&cThiếu bệ dịch chuyển!");
-                    }
+                                    p.playSound(p.getLocation(), Sound.ITEM_CHORUS_FRUIT_TELEPORT, 0.5F, 0.5F);
+                                    p.spawnParticle(Particle.DRAGON_BREATH, p.getLocation(), 10);
+                                }, 1);
+                            }, false);
+                        } else {
+                            Utils.send(p, "&cThiếu bệ dịch chuyển!");
+                        }
+                    });
                 }, false);
             }
         }
@@ -191,20 +195,26 @@ public class Events implements Listener {
                             if (!result.isDataLoaded()) {
                                 controller.loadBlockData(result);
                             }
-                            if (!result.getData("type").equals("destination")
-                                    || destination.getBlock().getRelative(BlockFace.UP).getType() == Material.AIR
-                                    || destination.getBlock().getRelative(BlockFace.UP, 2).getType() == Material.AIR
-                            ) {
+                            if (!result.getData("type").equals("destination")) {
                                 Utils.send(p, "&cThiếu bệ dịch chuyển!");
                                 return;
                             }
 
-                            destination.setPitch(pitch);
-                            destination.setYaw(yaw);
-                            Slimefun.runSync(() ->{
-                                p.teleport(destination.add(0.5, 1, 0.5));
-                                p.playSound(p.getLocation(), Sound.ITEM_CHORUS_FRUIT_TELEPORT, 0.5F, 0.5F);
-                                p.spawnParticle(Particle.DRAGON_BREATH, p.getLocation(), 10);
+                            Bukkit.getRegionScheduler().run(FluffyMachines.getInstance(), destination, t -> {
+                                if (destination.getBlock().getRelative(BlockFace.UP).getType() == Material.AIR
+                                        || destination.getBlock().getRelative(BlockFace.UP, 2).getType() == Material.AIR
+                                ) {
+                                    Utils.send(p, "&cThiếu bệ dịch chuyển!");
+                                    return;
+                                }
+
+                                destination.setPitch(pitch);
+                                destination.setYaw(yaw);
+                                p.getScheduler().run(FluffyMachines.getInstance(), task -> {
+                                    p.teleport(destination.add(0.5, 1, 0.5));
+                                    p.playSound(p.getLocation(), Sound.ITEM_CHORUS_FRUIT_TELEPORT, 0.5F, 0.5F);
+                                    p.spawnParticle(Particle.DRAGON_BREATH, p.getLocation(), 10);
+                                }, null);
                             });
                         }
 

@@ -13,6 +13,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.ncbpfluffybear.fluffymachines.FluffyMachines;
 import io.ncbpfluffybear.fluffymachines.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -95,14 +96,13 @@ public class Dolly extends SimpleSlimefunItem<ItemUseHandler> {
                         PlayerBackpack.bindItem(dolly, bp);
                         bp.getInventory().setItem(0, LOCK_ITEM);
                         Slimefun.getDatabaseManager().getProfileDataController().saveBackpackInventory(bp, 0);
-                        if (Bukkit.isPrimaryThread()) {
-                            pickupChest(dolly, bp, b, p);
-                        } else {
-                            Utils.runSync(b.getLocation(), () -> pickupChest(dolly, bp, b, p));
-                        }
+                        Bukkit.getRegionScheduler().run(FluffyMachines.getInstance(), b.getLocation(),
+                            t -> pickupChest(dolly, bp, b, p));
                     });
                 } else {
-                    PlayerBackpack.getAsync(dolly, bp -> pickupChest(dolly, bp, b, p), true);
+                    PlayerBackpack.getAsync(dolly, bp -> Bukkit.getRegionScheduler().run(
+                        FluffyMachines.getInstance(), b.getLocation(), t -> pickupChest(dolly, bp, b, p)
+                    ), true);
                 }
             } else if (Slimefun.getProtectionManager().hasPermission(
                     e.getPlayer(), b.getLocation(), Interaction.PLACE_BLOCK)
@@ -195,24 +195,26 @@ public class Dolly extends SimpleSlimefunItem<ItemUseHandler> {
             }
 
             boolean singleChest = isLockItem(bpContents[0][27]);
-            if (!canChestFit(chestBlock, p, singleChest)) {
-                Utils.send(p, "&cKhông thể đặt rương ở đây!");
-                return;
-            }
-
-            Utils.runSync(chestBlock.getLocation(), () -> {
-                createChest(chestBlock, p, singleChest);
-                backpack.getInventory().setItem(0, LOCK_ITEM);
-                Slimefun.getDatabaseManager().getProfileDataController().saveBackpackInventory(backpack, 0);
-
-                if (singleChest) {
-                    bpContents[0] = Arrays.copyOf(bpContents[0], 27);
+            Bukkit.getRegionScheduler().run(FluffyMachines.getInstance(), chestBlock.getLocation(), t -> {
+                if (!canChestFit(chestBlock, p, singleChest)) {
+                    Utils.send(p, "&cKhông thể đặt rương ở đây!");
+                    return;
                 }
 
-                ((InventoryHolder) chestBlock.getState()).getInventory().setStorageContents(bpContents[0]);
-                Slimefun.getDatabaseManager().getProfileDataController().saveBackpackInventory(backpack, IntStream.range(0, backpack.getSize()).boxed().toArray(Integer[]::new));
-                dolly.setType(Material.MINECART);
-                Utils.send(p, "&aĐã đặt rương");
+                Utils.runSync(chestBlock.getLocation(), () -> {
+                    createChest(chestBlock, p, singleChest);
+                    backpack.getInventory().setItem(0, LOCK_ITEM);
+                    Slimefun.getDatabaseManager().getProfileDataController().saveBackpackInventory(backpack, 0);
+
+                    if (singleChest) {
+                        bpContents[0] = Arrays.copyOf(bpContents[0], 27);
+                    }
+
+                    ((InventoryHolder) chestBlock.getState()).getInventory().setStorageContents(bpContents[0]);
+                    Slimefun.getDatabaseManager().getProfileDataController().saveBackpackInventory(backpack, IntStream.range(0, backpack.getSize()).boxed().toArray(Integer[]::new));
+                    dolly.setType(Material.MINECART);
+                    Utils.send(p, "&aĐã đặt rương");
+                });
             });
         }, false);
     }
